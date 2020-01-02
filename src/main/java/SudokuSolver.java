@@ -22,6 +22,16 @@ public class SudokuSolver {
         showTable(solver.solve(table));
     }
 
+    private int[][] cloneArray (int[][] arrayToClone) {
+        if (arrayToClone == null)
+            return null;
+        int[][] result = new int[9][9];
+        for (int i = 0; i< 9; i++) {
+            result[i] = arrayToClone[i].clone();
+        }
+        return  result;
+    }
+
     /**
      * Method which implements backtracking to solve the table. Implementation done through iteration.
      * Possible to do through recursion as well.
@@ -29,20 +39,16 @@ public class SudokuSolver {
      * @return
      */
     public int[][] solve (int[][] tableToSolve) {
-         int[][] saved = new int[][]
-                 {{0, 0, 0, 0, 0, 0, 0, 0, 2},
-                         {0, 2, 0, 7, 9, 5, 0, 0, 0},
-                         {0, 0, 5, 2, 0, 3, 6, 0, 0},
-                         {0, 6, 9, 8, 0, 7, 1, 3, 0},
-                         {0, 8, 0, 0, 3, 0, 0, 4, 0},
-                         {0, 3, 7, 5, 0, 4, 9, 6, 0},
-                         {0, 0, 6, 9, 0, 8, 4, 0, 0},
-                         {0, 0, 0, 1, 5, 6, 0, 7, 0},
-                         {9, 0, 0, 0, 0, 0, 0, 0, 0}};
+
+        // Saving the array.
+         int[][] saved = cloneArray(tableToSolve);
+
+        //System.arraycopy(tableToSolve,0,saved,0,9);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.println(" i is " + i + " j is " + j + " Saved is "+saved[i][j]);
+                //System.out.println(" i is " + i + " j is " + j + " Saved is "+saved[i][j]);
                 if (saved[i][j] == 0 ) {
+                    // In case the value is 0 it will start from one. In case it's from backtrack, it will continue iterating from where it left to prevent infinite loops.
                     int k = tableToSolve[i][j]+1;
 
                     while (k <= 9) {
@@ -63,40 +69,32 @@ public class SudokuSolver {
                     // Or k is 10 so the algorithm went trough all possibilities but couldn't find any matches so we need to backtrack.
                     // Backtracking bit.
                     if ( k !=11 ) {
-                        System.out.println("Need to backtrack");
+                        // System.out.println("Need to backtrack");
+
+                        // We reset the current value.
                         tableToSolve[i][j]=0;
+
+                        // And we search for the previous zero using an inverse for loop. In order not to have array issues, I added a if statement that checks if it's possible to go back a position before we start the loop.
+                        // It's just to get the previous positions of an element.
                         if (j > 0 ) {
                             j--;
                         }
                         else if(i>0) {i--;j=8;}
+
+                        // Searching for the previous zero in the array then making the new values of i and j the ones supposed to.
                         for (int p = i ;p>=0 ;p--){
                             for (int l = j; l>=0;l--) {
                                 if (saved[p][l] == 0) {
-                                    System.out.println("ok at " + p + " and " +l);
+                                    //System.out.println("ok at " + p + " and " +l);
                                     i = p; j = l;
                                     p = -1; l=-1;
                                 }
                             }
                         }
+                        // To counter the addition of the for loops.
                         if (j <= 8) { j--;}
                         else {i--; j=7;}
 
-
-                        /*
-                        // Switch until we find the last null element.
-                        int sw = 0;
-                        while ((i>=0) && (sw ==0)) {
-                            while ((j>=0)&&(sw == 0)){
-                                j--;
-                                // Using the saved table, we will parseback until we find the previous zero. I am using this instead of calling the function recursively as although it's more inefficient, it's harder to implement.
-                                if (saved [i][j] == 0 ) { j = j -1; sw = 1; }
-                                else j--;
-                            }
-                            j = 8;
-                            if (saved [i-1][j] ==0 ) { i = i-1; sw = 1; }
-                            else i--;
-                        }
-                        */
                     }
                 }
 
