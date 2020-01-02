@@ -3,7 +3,20 @@ public class SudokuSolver {
     public  static void main(String[] args)
     { SudokuSolver solver = new SudokuSolver();
 
-        showTable(solver.getRandomTable());
+        int[][] table = new int[][]
+                        {{0, 0, 0, 0, 0, 0, 0, 0, 2},
+                        {0, 2, 0, 7, 9, 5, 0, 0, 0},
+                        {0, 0, 5, 2, 0, 3, 6, 0, 0},
+                        {0, 6, 9, 8, 0, 7, 1, 3, 0},
+                        {0, 8, 0, 0, 3, 0, 0, 4, 0},
+                        {0, 3, 7, 5, 0, 4, 9, 6, 0},
+                        {0, 0, 6, 9, 0, 8, 4, 0, 0},
+                        {0, 0, 0, 1, 5, 6, 0, 7, 0},
+                        {9, 0, 0, 0, 0, 0, 0, 0, 0}};
+
+
+        showTable(table);
+        System.out.println(solver.checkIfValid(2,6,5,table));
     }
 
     public int[][] solver (int[][] tableToSolve) {
@@ -18,6 +31,7 @@ public class SudokuSolver {
 
     /**
      * Basic method that checks if the given input follows the rules of sudoku given the rules.
+     * TODO: Extension to show what rule is broken in case of user playing.
      * @param valueToCheck the value to be checked
      * @param x the row of the value to be inserted
      * @param y the colloum of the value to be inserted
@@ -26,8 +40,23 @@ public class SudokuSolver {
      */
 
     public boolean checkIfValid (int valueToCheck,int x, int y, int[][] table) {
+        // Check if value is already occupied
+        if (table[x][y] !=0) { System.out.println("Space Already ocupied"); return false;}
+
+        // Checking the row and the colloum;
         for (int i = 0; i<9; i++) {
-            if ((table[x][i] == valueToCheck) || (table[i][y] == valueToCheck) ) return false;
+            if ((table[x][i] == valueToCheck) || (table[i][y] == valueToCheck) ) {System.out.println("Value already present on line or row"); return false; }
+        }
+        // Checking the square
+        int xTable = x/3;
+        xTable = xTable*3;
+        int yTable = y/3;
+        yTable = yTable*3;
+        for (int i= xTable; i<=xTable+2; i++){
+            for (int j= yTable; j<=yTable+2; j++) {
+                //System.out.println ("table["+i+"]["+j+"] "+ table[i][j] +" == "+valueToCheck+"valueToCheck") ;
+                if (table[i][j] == valueToCheck) {System.out.println("Value already in the box"); return false;}
+            }
         }
 
     return true;
@@ -45,7 +74,7 @@ public class SudokuSolver {
             for (int j=0; j<9; j++) {
                 if (j%3==0 ) System.out.print("|");
                 if (tableToShow[i][j] == 0) System.out.print( "[" + " " +"]");
-                System.out.print( "[" + tableToShow[i][j] +"]");
+                else System.out.print( "[" + tableToShow[i][j] +"]");
 
 
             }
