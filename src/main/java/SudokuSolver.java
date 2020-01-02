@@ -1,4 +1,4 @@
-import jdk.internal.net.http.common.Pair;
+
 
 public class SudokuSolver {
 
@@ -18,7 +18,8 @@ public class SudokuSolver {
 
 
         showTable(table);
-        System.out.println(solver.checkIfValid(2,6,5,table));
+        //System.out.println(solver.checkIfValid(2,6,5,table));
+        showTable(solver.solve(table));
     }
 
     /**
@@ -27,22 +28,80 @@ public class SudokuSolver {
      * @param tableToSolve
      * @return
      */
-    public int[][] solver (int[][] tableToSolve) {
-        int[][] solved = new int[9][9];
-        for (int i = 0; i<9; i++) {
-            for (int j=0; j<9; j++) {
+    public int[][] solve (int[][] tableToSolve) {
+         int[][] saved = new int[][]
+                 {{0, 0, 0, 0, 0, 0, 0, 0, 2},
+                         {0, 2, 0, 7, 9, 5, 0, 0, 0},
+                         {0, 0, 5, 2, 0, 3, 6, 0, 0},
+                         {0, 6, 9, 8, 0, 7, 1, 3, 0},
+                         {0, 8, 0, 0, 3, 0, 0, 4, 0},
+                         {0, 3, 7, 5, 0, 4, 9, 6, 0},
+                         {0, 0, 6, 9, 0, 8, 4, 0, 0},
+                         {0, 0, 0, 1, 5, 6, 0, 7, 0},
+                         {9, 0, 0, 0, 0, 0, 0, 0, 0}};
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.println(" i is " + i + " j is " + j + " Saved is "+saved[i][j]);
+                if (saved[i][j] == 0 ) {
+                    int k = tableToSolve[i][j]+1;
 
-                for (int k=1; k<=9; k++) {
-                    if (checkIfValid(k,i,j,tableToSolve)) {
-                        tableToSolve[i][j] = k;
+                    while (k <= 9) {
+                        // Parsing through possibilities and checking if table is solved.
+                        if (checkIfValid(k, i, j, tableToSolve)) {
+
+                            tableToSolve[i][j] = k;
+                            showTable(tableToSolve);
+                            if ((i == 8) && (j ==8)) return tableToSolve;
+
+                            k = 10;
+                        }
+
+                        k++;
 
                     }
-                    if (k==10) {}
+                    // After the while loop happened, there are two possibilities, k is 11 so a suitable answer was found and we must continue onto the next case.
+                    // Or k is 10 so the algorithm went trough all possibilities but couldn't find any matches so we need to backtrack.
+                    // Backtracking bit.
+                    if ( k !=11 ) {
+                        System.out.println("Need to backtrack");
+                        tableToSolve[i][j]=0;
+                        if (j > 0 ) {
+                            j--;
+                        }
+                        else if(i>0) {i--;j=8;}
+                        for (int p = i ;p>=0 ;p--){
+                            for (int l = j; l>=0;l--) {
+                                if (saved[p][l] == 0) {
+                                    System.out.println("ok at " + p + " and " +l);
+                                    i = p; j = l;
+                                    p = -1; l=-1;
+                                }
+                            }
+                        }
+                        if (j <= 8) { j--;}
+                        else {i--; j=7;}
+
+
+                        /*
+                        // Switch until we find the last null element.
+                        int sw = 0;
+                        while ((i>=0) && (sw ==0)) {
+                            while ((j>=0)&&(sw == 0)){
+                                j--;
+                                // Using the saved table, we will parseback until we find the previous zero. I am using this instead of calling the function recursively as although it's more inefficient, it's harder to implement.
+                                if (saved [i][j] == 0 ) { j = j -1; sw = 1; }
+                                else j--;
+                            }
+                            j = 8;
+                            if (saved [i-1][j] ==0 ) { i = i-1; sw = 1; }
+                            else i--;
+                        }
+                        */
+                    }
                 }
 
             }}
-
-        return solved;
+        return null;
     }
 
 
@@ -61,7 +120,9 @@ public class SudokuSolver {
 
         // Checking the row and the colloum;
         for (int i = 0; i<9; i++) {
-            if ((table[x][i] == valueToCheck) || (table[i][y] == valueToCheck) ) {System.out.println("Value already present on line or row"); return false; }
+            if ((table[x][i] == valueToCheck) || (table[i][y] == valueToCheck) ) {
+                System.out.println("Value " + valueToCheck + " already present on line " + x + "or row "+y);
+            return false; }
         }
         // Checking the square
         int xTable = x/3;
@@ -71,7 +132,9 @@ public class SudokuSolver {
         for (int i= xTable; i<=xTable+2; i++){
             for (int j= yTable; j<=yTable+2; j++) {
                 //System.out.println ("table["+i+"]["+j+"] "+ table[i][j] +" == "+valueToCheck+"valueToCheck") ;
-                if (table[i][j] == valueToCheck) {System.out.println("Value already in the box"); return false;}
+                if (table[i][j] == valueToCheck) {
+                    System.out.println("Value already in the box");
+                return false;}
             }
         }
 
@@ -86,7 +149,7 @@ public class SudokuSolver {
     public static void showTable (int[][] tableToShow) {
 
         for (int i = 0; i<=8; i++) {
-            if (i%3==0 ) System.out.println(" ------------------------------");
+           // if (i%3==0 ) System.out.println(" ------------------------------");
             for (int j=0; j<9; j++) {
                 if (j%3==0 ) System.out.print("|");
                 if (tableToShow[i][j] == 0) System.out.print( "[" + " " +"]");
@@ -98,6 +161,7 @@ public class SudokuSolver {
 
 
         }
+        System.out.println(" ------------------------------");
 
 
     }
