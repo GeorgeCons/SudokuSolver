@@ -1,3 +1,5 @@
+import jdk.internal.net.http.common.Pair;
+
 public class SudokuSolver {
 
     public  static void main(String[] args)
@@ -19,15 +21,31 @@ public class SudokuSolver {
         System.out.println(solver.checkIfValid(2,6,5,table));
     }
 
+    /**
+     * Method which implements backtracking to solve the table. Implementation done through iteration.
+     * Possible to do through recursion as well.
+     * @param tableToSolve
+     * @return
+     */
     public int[][] solver (int[][] tableToSolve) {
         int[][] solved = new int[9][9];
         for (int i = 0; i<9; i++) {
             for (int j=0; j<9; j++) {
 
+                for (int k=1; k<=9; k++) {
+                    if (checkIfValid(k,i,j,tableToSolve)) {
+                        tableToSolve[i][j] = k;
+
+                    }
+                    if (k==10) {}
+                }
+
             }}
 
         return solved;
     }
+
+
 
     /**
      * Basic method that checks if the given input follows the rules of sudoku given the rules.
@@ -40,8 +58,6 @@ public class SudokuSolver {
      */
 
     public boolean checkIfValid (int valueToCheck,int x, int y, int[][] table) {
-        // Check if value is already occupied
-        if (table[x][y] !=0) { System.out.println("Space Already ocupied"); return false;}
 
         // Checking the row and the colloum;
         for (int i = 0; i<9; i++) {
