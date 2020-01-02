@@ -5,13 +5,38 @@ public class SudokuSolver {
 
         showTable(solver.getRandomTable());
     }
+
     public int[][] solver (int[][] tableToSolve) {
         int[][] solved = new int[9][9];
+        for (int i = 0; i<9; i++) {
+            for (int j=0; j<9; j++) {
 
-        
+            }}
 
         return solved;
     }
+
+    /**
+     * Basic method that checks if the given input follows the rules of sudoku given the rules.
+     * @param valueToCheck the value to be checked
+     * @param x the row of the value to be inserted
+     * @param y the colloum of the value to be inserted
+     * @param table the current sudoku table
+     * @return true if it can be inserted there or false otherwise.
+     */
+
+    public boolean checkIfValid (int valueToCheck,int x, int y, int[][] table) {
+        for (int i = 0; i<9; i++) {
+            if ((table[x][i] == valueToCheck) || (table[i][y] == valueToCheck) ) return false;
+        }
+
+    return true;
+    }
+
+    /**
+     *  A method which prints in a semi-friendly format the output of a sudoku table.
+     * @param tableToShow
+     */
 
     public static void showTable (int[][] tableToShow) {
 
@@ -29,6 +54,17 @@ public class SudokuSolver {
 
         }
 
+
+    }
+
+    /**
+     * Simple method that makes use of the equals method and given two tables checks if the first is the same with the second.
+     * @param trial
+     * @param solution
+     * @return
+     */
+    private boolean checkSolution (int[][]trial, int[][] solution) {
+        return trial.equals(solution);
 
     }
 
