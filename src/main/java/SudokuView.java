@@ -1,17 +1,22 @@
-import java.io.IOException;
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class SudokuView {
 
-    private FXMLLoadPair loadFromFxml(String resourceName) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + resourceName + ".fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+public class SudokuView extends Application {
 
-        return new FXMLLoadPair(root, (IController)loader.getController());
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/sudokuGUI.fxml"));
+        primaryStage.setTitle("Eradoku");
+        primaryStage.setScene(new Scene (root,789,445));
+        primaryStage.show();
     }
+
+
+
 }
+
+
