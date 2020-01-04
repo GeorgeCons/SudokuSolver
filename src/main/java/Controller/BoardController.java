@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 public class BoardController  implements Initializable {
 // --- All text areas --
 @FXML private TextField field00;
-@FXML private TextField field01;
+@FXML public TextField field01;
 @FXML private TextField field02;
 @FXML private TextField field03;
 @FXML private TextField field04;
@@ -106,12 +106,14 @@ public class BoardController  implements Initializable {
 
 
 private ArrayList <TextField> board = new ArrayList<TextField>();
+private  BoardController INSTANCE;
 
 
 
 
 
     public void initialize(URL url, ResourceBundle rb) {
+        this.INSTANCE = this;
         int[][] table = new int[][]
                 {{0, 0, 0, 0, 0, 0, 0, 0, 2},
                         {0, 2, 0, 7, 9, 5, 0, 0, 0},
@@ -154,7 +156,7 @@ private ArrayList <TextField> board = new ArrayList<TextField>();
   }
 
 
-    public static void addTextLimiter(final TextField tf, final int maxLength) {
+    private static void addTextLimiter(final TextField tf, final int maxLength) {
         tf.textProperty().addListener(new ChangeListener<String>() {
 
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
@@ -164,6 +166,10 @@ private ArrayList <TextField> board = new ArrayList<TextField>();
                 }
             }
         });
+    }
+
+    public BoardController getINSTANCE(){
+     return this.INSTANCE;
     }
 
 

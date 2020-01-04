@@ -1,5 +1,6 @@
 package Controller;
 
+import View.SudokuView;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -12,7 +13,7 @@ import java.util.ResourceBundle;
 
 
 public class GUIController implements Initializable {
-    Controller controller;
+
 
         @FXML Button buttonReset;
         @FXML private Button buttonSolve;
@@ -23,10 +24,14 @@ public class GUIController implements Initializable {
         public void initialize(URL url, ResourceBundle rb) {
            // field00.setText("test");
            // buttonReset.setText("PLS");
-
             buttonSolve.setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
                     Controller.solve();
+                }
+            });
+            buttonReset.setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                   // BoardController.field01.setText("9");
                 }
             });
         }

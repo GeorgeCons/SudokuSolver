@@ -1,6 +1,10 @@
-package Main;
+package Model;
+
+import Controller.BoardController;
 
 public class SudokuSolver {
+    private int[][] table;
+    private boolean isSolved;
 
     public  static void main(String[] args)
     { SudokuSolver solver = new SudokuSolver();
@@ -18,6 +22,7 @@ public class SudokuSolver {
 
 
         showTable(table);
+
         //System.out.println(solver.checkIfValid(2,6,5,table));
         showTable(solver.solve(table));
     }
@@ -38,8 +43,8 @@ public class SudokuSolver {
      * @param tableToSolve
      * @return
      */
-    public int[][] solve (int[][] tableToSolve) {
-
+    public int[][] solve (int[][] tableToSolve, BoardController boardController) {
+        isSolved=false;
         // Saving the array.
          int[][] saved = cloneArray(tableToSolve);
 
@@ -56,8 +61,10 @@ public class SudokuSolver {
                         if (checkIfValid(k, i, j, tableToSolve)) {
 
                             tableToSolve[i][j] = k;
-                            showTable(tableToSolve);
-                            if ((i == 8) && (j ==8)) return tableToSolve;
+                            //this.table = tableToSolve;
+                            //showTable(tableToSolve);
+                            boardController.updateTable(tableToSolve);
+                            if ((i == 8) && (j ==8)) {  return tableToSolve;}
 
                             k = 10;
                         }
@@ -102,7 +109,9 @@ public class SudokuSolver {
         return null;
     }
 
-
+    public int[][] solve (int[][] tableToSolve) {
+ return this.solve(tableToSolve,null);
+    }
 
     /**
      * Basic method that checks if the given input follows the rules of sudoku given the rules.
@@ -174,6 +183,14 @@ public class SudokuSolver {
         return trial.equals(solution);
 
     }
+
+    public int[][] getTable() {
+        return this.table;
+    }
+    public boolean isSolved() {
+        return isSolved;
+    }
+
 
     public int[][] getRandomTable(){
         int[][] table = new int[][]

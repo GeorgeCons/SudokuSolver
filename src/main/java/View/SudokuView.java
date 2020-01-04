@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GUIController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,13 +13,14 @@ import javafx.stage.Stage;
 
 
 public class SudokuView extends Application {
-
+    GUIController controller;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root =  FXMLLoader.load(getClass().getClassLoader().getResource("fxml/sudokuGUI.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/sudokuGUI.fxml"));
+        Parent root =  loader.load();
         Scene scene =  new Scene(root);
-        //Controller.GUIController controller =  loader.getController();
+        this.controller =  loader.getController();
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Eradoku");
@@ -27,6 +29,9 @@ public class SudokuView extends Application {
 
 
 
+    }
+    public GUIController getController (){
+        return this.controller;
     }
 
 
