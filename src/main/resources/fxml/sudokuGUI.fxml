@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0000999999975" prefWidth="787.999977929685" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0000999999975" prefWidth="787.999977929685" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="FXMLController">
   <children>
     <BorderPane layoutX="0.0" layoutY="0.0" prefHeight="444.0001220703125" prefWidth="788.0">
       <center>
-        <fx:include source="SudokuBoard.fxml" prefHeight="389.0" prefWidth="591.0" />
+        <fx:include fx:id="sudokuBoardFXML" source="SudokuBoard.fxml" prefHeight="389.0" prefWidth="591.0" />
       </center>
       <left>
         <AnchorPane prefHeight="409.0" prefWidth="145.0">
@@ -20,15 +20,15 @@
               <children>
                 <HBox prefHeight="36.0" prefWidth="200.0">
                   <children>
-                    <Button id="buttonReset" mnemonicParsing="false" text="Reset">
+                    <Button fx:id="buttonReset" mnemonicParsing="false" text="Reset">
                       <HBox.margin>
                         <Insets left="15.0" fx:id="x1" />
                       </HBox.margin>
                     </Button>
-                    <Button id="buttonSubmit" alignment="BOTTOM_RIGHT" cancelButton="false" defaultButton="false" mnemonicParsing="false" text="Submit" textAlignment="LEFT" HBox.margin="$x1" />
+                    <Button fx:id="buttonSubmit" alignment="BOTTOM_RIGHT" cancelButton="false" defaultButton="false" mnemonicParsing="false" text="Submit" textAlignment="LEFT" HBox.margin="$x1" />
                   </children>
                 </HBox>
-                <Button id="buttonSolve" mnemonicParsing="false" text="Solve">
+                <Button fx:id="buttonSolve" mnemonicParsing="false" text="Solve">
                   <VBox.margin>
                     <Insets left="50.0" />
                   </VBox.margin>
