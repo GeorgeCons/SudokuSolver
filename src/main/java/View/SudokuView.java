@@ -1,3 +1,5 @@
+package View;
+
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,7 +18,7 @@ public class SudokuView extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root =  FXMLLoader.load(getClass().getClassLoader().getResource("fxml/sudokuGUI.fxml"));
         Scene scene =  new Scene(root);
-        //FXMLController controller =  loader.getController();
+        //Controller.GUIController controller =  loader.getController();
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Eradoku");
