@@ -4,24 +4,13 @@ import Model.SudokuSolver;
 
 public class Controller extends Thread {
     SudokuSolver solver;
-    BoardController boardControl;
 
-    public void run(){
-        solve();
-        boardControl.updateTable(solver.getTable());
-        while (!solver.isSolved()) {
-            try {
-                boardControl.updateTable(solver.getTable());
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
-    public static void solve(){
+
+    public static void solve(GUIController boardControl){
         Controller control = new Controller();
         //TODO:  Get current table from Arraylist
+
         int[][] tableTest = new int[][]
                 {{8, 9, 3, 4, 6, 1, 7, 5, 2},
                         {6, 2, 4, 7, 9, 5, 3, 8, 1},
@@ -34,11 +23,9 @@ public class Controller extends Thread {
                         {9, 7, 8, 3, 4, 2, 5, 1, 6}};
 
         control.solver = new SudokuSolver();
-        BoardController boardControl = new BoardController();
-        boardControl.updateTable(tableTest);
-
-
-
+        int[][] tableBefore = boardControl.getResetTable();
+        control.solver.solve(tableBefore,boardControl);
+        //boardControl.updateTable(tableTest);
         System.out.println("Pressed");
     }
 

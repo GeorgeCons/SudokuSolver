@@ -1,8 +1,10 @@
 package Model;
 
-import Controller.BoardController;
 
-public class SudokuSolver {
+import Controller.GUIController ;
+import View.SudokuView;
+
+public class SudokuSolver extends Thread {
     private int[][] table;
     private boolean isSolved;
 
@@ -27,7 +29,7 @@ public class SudokuSolver {
         showTable(solver.solve(table));
     }
 
-    private int[][] cloneArray (int[][] arrayToClone) {
+    public static int[][] cloneArray (int[][] arrayToClone) {
         if (arrayToClone == null)
             return null;
         int[][] result = new int[9][9];
@@ -43,7 +45,7 @@ public class SudokuSolver {
      * @param tableToSolve
      * @return
      */
-    public int[][] solve (int[][] tableToSolve, BoardController boardController) {
+    public int[][] solve (int[][] tableToSolve, GUIController boardController) {
         isSolved=false;
         // Saving the array.
          int[][] saved = cloneArray(tableToSolve);
@@ -62,9 +64,10 @@ public class SudokuSolver {
 
                             tableToSolve[i][j] = k;
                             //this.table = tableToSolve;
-                            //showTable(tableToSolve);
-                            boardController.updateTable(tableToSolve);
-                            if ((i == 8) && (j ==8)) {  return tableToSolve;}
+                            showTable(tableToSolve);
+
+
+                            if ((i == 8) && (j ==8)) { boardController.updateTable(tableToSolve); return tableToSolve; }
 
                             k = 10;
                         }
@@ -206,5 +209,6 @@ public class SudokuSolver {
 
         return table;
     }
+
 
 }
