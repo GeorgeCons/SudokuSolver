@@ -30,9 +30,7 @@ public class SudokuView extends Application {
 
 
     }
-    public GUIController getController (){
-        return this.controller;
-    }
+
 
 
 

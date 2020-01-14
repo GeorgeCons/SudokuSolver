@@ -3,6 +3,7 @@ package Model;
 
 import Controller.GUIController ;
 import View.SudokuView;
+import javafx.application.Platform;
 
 public class SudokuSolver extends Thread {
     private int[][] table;
@@ -45,8 +46,7 @@ public class SudokuSolver extends Thread {
      * @param tableToSolve
      * @return
      */
-    public int[][] solve (int[][] tableToSolve, GUIController boardController) {
-        isSolved=false;
+    public  int[][] solve  (final int[][] tableToSolve, final GUIController boardController) {
         // Saving the array.
          int[][] saved = cloneArray(tableToSolve);
 
@@ -62,11 +62,23 @@ public class SudokuSolver extends Thread {
                         // Parsing through possibilities and checking if table is solved.
                         if (checkIfValid(k, i, j, tableToSolve)) {
 
+                            Integer kvalue = k;
+
                             tableToSolve[i][j] = k;
+                            boardController.fieldOfTexts[i][j].setText(kvalue.toString());
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             //this.table = tableToSolve;
+
+                            try {
+                                boardController.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             showTable(tableToSolve);
-
-
                             if ((i == 8) && (j ==8)) { boardController.updateTable(tableToSolve); return tableToSolve; }
 
                             k = 10;
@@ -110,6 +122,9 @@ public class SudokuSolver extends Thread {
 
             }}
         return null;
+    }
+    private void updating (GUIController board, int[][] table ) {
+        board.getINSTANCE().updateTable(table);
     }
 
     public int[][] solve (int[][] tableToSolve) {

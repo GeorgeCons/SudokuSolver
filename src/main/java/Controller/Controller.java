@@ -7,10 +7,19 @@ public class Controller extends Thread {
 
 
 
-    public static void solve(GUIController boardControl){
-        Controller control = new Controller();
+    public static void solve(final GUIController boardControl){
+        final Controller control = new Controller();
         //TODO:  Get current table from Arraylist
-
+        final int[][] tableBefore = new int[][]
+                {{0, 0, 0, 0, 0, 0, 0, 0, 2},
+                        {0, 2, 0, 7, 9, 5, 0, 0, 0},
+                        {0, 0, 5, 2, 0, 3, 6, 0, 0},
+                        {0, 6, 9, 8, 0, 7, 1, 3, 0},
+                        {0, 8, 0, 0, 3, 0, 0, 4, 0},
+                        {0, 3, 7, 5, 0, 4, 9, 6, 0},
+                        {0, 0, 6, 9, 0, 8, 4, 0, 0},
+                        {0, 0, 0, 1, 5, 6, 0, 7, 0},
+                        {9, 0, 0, 0, 0, 0, 0, 0, 0}};
         int[][] tableTest = new int[][]
                 {{8, 9, 3, 4, 6, 1, 7, 5, 2},
                         {6, 2, 4, 7, 9, 5, 3, 8, 1},
@@ -23,10 +32,20 @@ public class Controller extends Thread {
                         {9, 7, 8, 3, 4, 2, 5, 1, 6}};
 
         control.solver = new SudokuSolver();
-        int[][] tableBefore = boardControl.getResetTable();
-        control.solver.solve(tableBefore,boardControl);
-        //boardControl.updateTable(tableTest);
+[]
         System.out.println("Pressed");
+
+
+        Thread thread2 = new Thread() {
+            public void run() {
+                control.solver.solve(tableBefore,boardControl);}};
+        try {
+            thread2.start();
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

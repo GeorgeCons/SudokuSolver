@@ -117,14 +117,26 @@ public class GUIController extends Thread  implements Initializable {
     @FXML private TextField field88;
 
 
-    private ArrayList<TextField> board = new ArrayList<TextField>();
+
+    //private ArrayList<TextField> board = new ArrayList<TextField>();
+    public TextField[][] fieldOfTexts;
 GUIController INSTANCE;
+Controller controller;
 
 
+    @Override
+    public void run() {
+        synchronized (this) {
+            updateTable(controller.solver.getTable());
+            notify();
+        }
+    }
 
     public void initialize(URL url, ResourceBundle rb) {
         this.INSTANCE = this;
-        addAllToBoard();
+        //addAllToBoard();
+        //convertToArray();
+        addToArray();
         setLimiter();
         final int[][] table = new int[][]
                 {{0, 0, 0, 0, 0, 0, 0, 0, 2},
@@ -142,7 +154,7 @@ GUIController INSTANCE;
 
             buttonSolve.setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent event) {
-                    Controller.solve(INSTANCE);
+                    controller.solve(INSTANCE);
                 }
             });
             buttonReset.setOnAction(new EventHandler<ActionEvent>() {
@@ -166,22 +178,24 @@ GUIController INSTANCE;
             return table;
         }
 
-    public void updateTable (int[][] sudokuBoard) {
-        int k = 0;
+    public synchronized void updateTable (int[][] sudokuBoard) {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 Integer number = sudokuBoard[i][j];
-                this.board.get(k).setText(number.toString());
-                k++;
+                this.fieldOfTexts[i][j].setText(number.toString());
+
             }
         }
+        notify();
 
     }
 
     private void setLimiter (){
-        for (TextField field : board) {
-            addTextLimiter(field,1);
+        for (TextField[] fielder : fieldOfTexts) {
+            for (TextField field : fielder) {
+                addTextLimiter(field, 1);
+            }
         }
     }
 
@@ -197,13 +211,109 @@ GUIController INSTANCE;
             }
         });
     }
+    public  GUIController getINSTANCE (){
+        return INSTANCE;
+    }
+
+    public void addToArray(){
+        this.fieldOfTexts = new TextField[][]{{field00,
+                field01,
+                field02,
+                field03,
+                field04,
+                field05,
+                field06,
+                field07,
+                field08,},
+
+                { field10,
+                field11,
+                field12,
+                field13,
+                field14,
+                field15,
+                field16,
+                field17,
+                field18,},
+
+                {field20,
+                field21,
+                field22,
+                field23,
+                field24,
+                field25,
+                field26,
+                field27,
+                field28,},
+
+                {field30,
+                field31,
+                field32,
+                field33,
+                field34,
+                field35,
+                field36,
+                field37,
+                field38,},
+
+                {field40,
+                field41,
+                field42,
+                field43,
+                field44,
+                field45,
+                field46,
+                field47,
+                field48,},
+
+                {field50,
+                field51,
+                field52,
+                field53,
+                field54,
+                field55,
+                field56,
+                field57,
+                field58,},
+
+                {field60,
+                field61,
+                field62,
+                field63,
+                field64,
+                field65,
+                field66,
+                field67,
+                field68,},
+
+                {field70,
+                field71,
+                field72,
+                field73,
+                field74,
+                field75,
+                field76,
+                field77,
+                field78,},
+
+                { field80,
+                field81,
+                field82,
+                field83,
+                field84,
+                field85,
+                field86,
+                field87,
+                field88}};
+    }
 
 
 
 
-    /**
-     * Adds all the Text Field to the array.
-     */
+
+
+/*
+
     public void addAllToBoard() {
         Collections.addAll(this.board, new TextField[]{
                 field00,
@@ -296,7 +406,7 @@ GUIController INSTANCE;
                 field87,
                 field88});
     }
-
+*/
 
 
 
